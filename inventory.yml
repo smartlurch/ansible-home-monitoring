@@ -1,0 +1,6 @@
+ungrouped:
+  hosts:
+    docker-test:
+      ansible_host: 192.168.122.223
+      ansible_user: homeadmin
+
