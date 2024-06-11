@@ -1,6 +1,6 @@
 # ansible project to setup netbox and zabbix on my home server
 
-## Usage
+## Getting Started 
 1. git pull from github
 2. edit inventory file
 3. make sure ssh into server works with ssh key

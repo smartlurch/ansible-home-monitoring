@@ -1,6 +1,9 @@
 ungrouped:
   hosts:
-    docker-test:
+    netbox:
+      ansible_host: 192.168.122.223
+      ansible_user: homeadmin
+    zabbix:
       ansible_host: 192.168.122.223
       ansible_user: homeadmin
 

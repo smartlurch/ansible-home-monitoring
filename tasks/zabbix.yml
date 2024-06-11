@@ -1,0 +1,11 @@
+- name: Clone zabbix github repository
+  git:
+    repo: https://github.com/zabbix/zabbix-docker.git
+    dest: /home/homeadmin/repos/zabbix
+    clone: yes
+    update: yes
+- name: start zabbix
+  community.docker.docker_compose_v2:
+    project_src: /home/homeadmin/repos/zabbix
+    files: docker-compose_v3_alpine_pgsql_latest.yaml
+

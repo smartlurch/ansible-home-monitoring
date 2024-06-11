@@ -1,33 +1,25 @@
 ---
   - hosts: all
     become: yes
-    tasks:
-      - name: Clone netbox github repository
-        git:
-          repo: https://github.com/netbox-community/netbox-docker.git
-          dest: /home/homeadmin/repos/netbox-docker
-          clone: yes
-          update: yes
-      - name: copy netbox compose override file
-        ansible.builtin.copy:
-          src: ./files/netbox-override.yml
-          dest: /home/homeadmin/repos/netbox-docker/docker-compose.override.yml
-      - name: start netbox
-        community.docker.docker_compose_v2:
-          project_src: /home/homeadmin/repos/netbox-docker
-        register: output
-      - name: Clone zabbix github repository
-        git:
-          repo: https://github.com/zabbix/zabbix-docker.git
-          dest: /home/homeadmin/repos/zabbix
-          clone: yes
-          update: yes
-      - name: start zabbix
-        community.docker.docker_compose_v2:
-          project_src: /home/homeadmin/repos/zabbix
-          files: docker-compose_v3_alpine_pgsql_latest.yaml
-        register: output
     roles:
       - geerlingguy.docker
-  
-    
+    vars:
+      docker_user: 'homeadmin'
+    tasks:
+      - name: add homeadmin to docker group
+        ansible.builtin.user:
+          name: '{{ docker_user }}'
+          groups: docker
+          append: true
+
+
+  - hosts: netbox
+    tasks:
+      - name: import netbox tasks
+        ansible.builtin.import_tasks:
+          file: tasks/netbox.yml
+  - hosts: zabbix
+    tasks:
+      - name: import zabbix tasks
+        ansible.builtin.import_tasks:
+          file: tasks/zabbix.yml
